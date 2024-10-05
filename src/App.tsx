@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState } from "react";
 
+import CocktailsComponent from "./CocktailsComponent";
 function App() {
-  const [count, setCount] = useState(0)
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
 
+  const saveCocktail = (id: number) => {
+    if (!favorites.includes(id)) {
+      setFavorites([...favorites, id]);
+    }
+  };
+  const seeFavorites = () => {
+    setShowFavorites(!showFavorites);
+  };
   return (
     <>
+      <h1>Super cool site with super cool cocktails for super cool people</h1>
+      <hr></hr>
+
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={seeFavorites}>
+          {showFavorites
+            ? "Go back to all cocktails"
+            : "Show favorite coctails"}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+        <CocktailsComponent
+          saveCocktail={saveCocktail}
+          favorites={favorites}
+          isFavoriteList={showFavorites}
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
